@@ -33,9 +33,7 @@ public class BenefitsApplicationController {
 	public List <BenefitsApplication> getAllBenefitsApplications(){
 		return benefitsApplicationRepository.findAll();
 	}  
-	
-	
-	
+		
 	//create 
 	@CrossOrigin
 	@PostMapping("/benefitsApplications")
@@ -54,6 +52,12 @@ public class BenefitsApplicationController {
 		return ResponseEntity.ok(benefitsApplication);
 	}
 	
+	@CrossOrigin
+	@GetMapping("/benefitsApplications/getbyUser/{email}")
+	public List <BenefitsApplication> getByID(@PathVariable String email) {
+		List<BenefitsApplication> benefitsApplications = benefitsApplicationRepository.findByEmail(email);
+		return benefitsApplications;
+	}	
 	
 	//update data 
 	@CrossOrigin
@@ -75,7 +79,35 @@ public class BenefitsApplicationController {
 		return ResponseEntity.ok(updatedbenefitsApplication);
 }
 	
-	
+		//update data 
+		@CrossOrigin
+		@PutMapping ("/benefitsApplications/approve/{id}")
+		public ResponseEntity<BenefitsApplication> approveBenefitsApplicationByID(@PathVariable Long id, @RequestBody BenefitsApplication benefitsApplicationDetails){
+			BenefitsApplication benefitsApplication = benefitsApplicationRepository.findById(id).
+					orElseThrow(()-> new ResourceNotFoundException("benefitsApplication with id "+id+"does not exists"));
+			
+			benefitsApplication.setApproval("Approved");
+			
+			BenefitsApplication updatedbenefitsApplication=benefitsApplicationRepository.save(benefitsApplication);
+			
+			return ResponseEntity.ok(updatedbenefitsApplication);
+	}
+
+
+
+		//update data 
+		@CrossOrigin
+		@PutMapping ("/benefitsApplications/decline/{id}")
+		public ResponseEntity<BenefitsApplication> declineBenefitsApplicationByID(@PathVariable Long id, @RequestBody BenefitsApplication benefitsApplicationDetails){
+			BenefitsApplication benefitsApplication = benefitsApplicationRepository.findById(id).
+					orElseThrow(()-> new ResourceNotFoundException("benefitsApplication with id "+id+"does not exists"));
+			
+			benefitsApplication.setApproval("Declined");
+			
+			BenefitsApplication updatedbenefitsApplication=benefitsApplicationRepository.save(benefitsApplication);
+			
+			return ResponseEntity.ok(updatedbenefitsApplication);
+	}	
 	
 	@CrossOrigin
 	@DeleteMapping("/benefitsApplications/{id}")

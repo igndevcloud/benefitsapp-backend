@@ -15,7 +15,7 @@ public class BenefitsApplication {
 	public BenefitsApplication() {}
 	
 	public BenefitsApplication(String fname, String lname, String email, String address, String city, 
-			LocalDate startDate) {
+			LocalDate startDate, String approval) {
 		super();
 		this.fname = fname;
 		this.lname = lname;
@@ -23,6 +23,7 @@ public class BenefitsApplication {
 		this.address = address;
 		this.city = city;
 		this.startDate = startDate;
+		this.approval = approval;
 	}
 	
 	@Id
@@ -43,10 +44,14 @@ public class BenefitsApplication {
 	
 	@Column(name="city")
 	private String city;
-	
+
 	@Column(name="startDate")
 	private LocalDate startDate;
+
+	@Column(name="approval")
+	private String approval;
 	
+
 	public long getId() {
 		return id;
 	}
@@ -89,7 +94,12 @@ public class BenefitsApplication {
 	public void setStartDate(LocalDate startDate) {
 		this.startDate = startDate;
 	}
-	
+	public String getApproval() {
+		return approval;
+	}
+	public void setApproval(String approval) {
+		this.approval = approval;
+	}	
 	
 	
 }
